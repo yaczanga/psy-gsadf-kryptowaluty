@@ -13,7 +13,47 @@ dowolnego okna jest wtedy roznica dwoch wpisow.
 import math
 
 import numpy as np
-from numba import cuda, jit, prange
+from numba import jit, prange
+
+
+class _CudaStub:
+    """Zaslepka pozwalajaca zaimportowac modul bez sterownika NVIDIA.
+
+    Na maszynie bez CUDA samo `from numba import cuda` przerywa import:
+    numba_cuda odczytuje wersje runtime'u i nie znajduje libcudart. Bez tej
+    zaslepki dekoratory @cuda.jit nie wykonalyby sie przy imporcie, wiec nie
+    dalby sie zebrac caly modul testow - takze te testy, ktore GPU nie
+    potrzebuja. Dekorator zwraca funkcje nietknieta; wywolanie jadra bez
+    karty i tak nie ma sensu, a jego proba konczy sie jasnym bledem.
+    """
+
+    @staticmethod
+    def jit(*args, **kwargs):
+        if len(args) == 1 and callable(args[0]) and not kwargs:
+            return args[0]
+
+        def decorator(function):
+            return function
+
+        return decorator
+
+    @staticmethod
+    def is_available():
+        return False
+
+    def __getattr__(self, name):
+        raise RuntimeError(
+            f'Operacja cuda.{name} wymaga karty NVIDIA. Etapy przygotowania '
+            f'danych i modeli zmiennosci dzialaja bez niej.')
+
+
+try:
+    from numba import cuda
+
+    CUDA_IMPORTED = True
+except Exception:  # brak sterownika albo biblioteki runtime'u CUDA
+    cuda = _CudaStub()
+    CUDA_IMPORTED = False
 
 # Liczba wierszy sum prefiksowych; kolejnosc akumulatorow w build_prefix_sums.
 N_TERMS = 9

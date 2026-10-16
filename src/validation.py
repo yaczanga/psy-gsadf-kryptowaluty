@@ -9,11 +9,11 @@ od pierwszej zatwierdzonej wersji notebooka; szczegoly w README.
 """
 import numpy as np
 import pandas as pd
-from numba import cuda
 
 from src import paths
 from src.data_load import CRYPTO_LIST, date_column, load_interim
-from src.psy_kernels import bsadf_kernel, build_prefix_sums
+# cuda pochodzi z psy_kernels, bo tam stoi zaslepka na wypadek braku sterownika.
+from src.psy_kernels import bsadf_kernel, build_prefix_sums, cuda
 
 # Minimalne okno regresji ADF, w obserwacjach.
 MIN_WINDOW = 200
@@ -36,7 +36,11 @@ SEED = 2026
 
 
 def gpu_available():
-    """Prawda, gdy jest urzadzenie CUDA; etap BSADF go wymaga."""
+    """Prawda, gdy jest urzadzenie CUDA; etap BSADF go wymaga.
+
+    Zwraca falsz takze wtedy, gdy samego numba.cuda nie dalo sie
+    zaimportowac, bo na maszynie nie ma biblioteki runtime'u CUDA.
+    """
     return cuda.is_available()
 
 
