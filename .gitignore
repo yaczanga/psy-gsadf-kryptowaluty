@@ -1,0 +1,34 @@
+# --- Środowisko ---
+venv/
+.venv/
+env/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# --- Stare wersje zamiast kasowania ---
+archive/
+
+# --- Dokument z numerami albumów autorów ---
+docs/praca.pdf
+
+# --- Sekrety ---
+.env
+.env.local
+
+# --- Konfiguracja edytora ---
+.obsidian/
+.vscode/
+.idea/
+
+# --- System ---
+.DS_Store
+Thumbs.db
+desktop.ini
