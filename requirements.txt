@@ -1,0 +1,18 @@
+# Wersje odczytane z działającego środowiska projektu (Python 3.12.10).
+pandas==3.0.6
+scipy==1.18.1
+statsmodels==0.15.0
+arch==8.0.0
+matplotlib==3.11.2
+
+# numba-cuda 0.30.4 odwołuje się do usuniętego np.row_stack, stąd górne ograniczenie.
+numpy==2.2.6
+
+# Etap PSY wymaga karty NVIDIA; pozostałe etapy działają bez tych trzech pakietów.
+numba==0.68.0
+numba-cuda==0.30.4
+cuda-python==13.4.1
+
+# Potrzebny wyłącznie do jednorazowego pobrania danych przez src/data_load.py.
+# Analiza na zapisanych plikach z data/raw/ działa bez niego.
+yfinance==1.7.0

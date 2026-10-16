@@ -1,0 +1,13 @@
+# Zestaw do testów. Bez matplotlib i yfinance, których testy nie dotykają.
+pandas==3.0.6
+numpy==2.2.6
+scipy==1.18.1
+statsmodels==0.15.0
+arch==8.0.0
+pytest==9.1.1
+
+# Potrzebne mimo braku karty na maszynie CI: src/psy_kernels.py kompiluje sumy
+# prefiksowe przez numba.jit, a src/validation.py importuje numba.cuda, żeby
+# sprawdzić dostępność urządzenia. Testy jądra GPU pomijają się same.
+numba==0.68.0
+numba-cuda==0.30.4
