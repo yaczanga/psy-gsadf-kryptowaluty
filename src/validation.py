@@ -4,8 +4,8 @@ Implementacja Phillipsa, Shi i Yu (2015) z korekta na heteroskedastycznosc
 wedlug Hafnera (2020): rozklad zerowy generuje wild bootstrap odtwarzajacy
 strukture zmiennosci szeregu zrodlowego.
 
-Cztery parametry rozkladu zerowego ida za opisem metody w pracy i roznia sie
-od pierwszej zatwierdzonej wersji notebooka; szczegoly w README.
+Parametry rozkladu zerowego - liczba sciezek, dryf, kwantyl kalibracji
+i czynnik przywracajacy trend - opisuje README, sekcja Metoda.
 """
 import numpy as np
 import pandas as pd
@@ -22,7 +22,7 @@ MIN_WINDOW = 200
 N_BOOTSTRAP = 10_000
 
 # Gorny kwantyl rozkladu symulowanego, w ktorym zakotwiczona jest krzywa
-# wartosci krytycznych; 99 odpowiada poziomowi 1% raportowanemu w pracy.
+# wartosci krytycznych; 99 odpowiada poziomowi istotnosci 1%.
 CV_QUANTILE = 99
 
 # Poziom istotnosci, przy ktorym epizod nazywamy banka.

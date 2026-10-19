@@ -2,11 +2,10 @@
 
 Test PSY (GSADF/BSADF) z korektą wild bootstrap na dziennych cenach 12 kryptowalut z lat 2018-2025. Istotne epizody wybuchowego zachowania cen stwierdzono dla 3 z 12 aktywów na poziomie istotności 1%: Binance Coin, Bitcoina i Stellara. Główne ograniczenie: etap testu wymaga karty NVIDIA, bo sekwencja BSADF liczona jest w jądrach CUDA.
 
-Repozytorium towarzyszy pracy zaliczeniowej z przedmiotu Modelowanie rynków finansowych (Wydział Nauk Ekonomicznych UW, styczeń 2026), autorstwa Jana Dziuby i Sebastiana Rubaja. Sama praca nie wchodzi do repozytorium, bo zawiera numery albumów autorów.
 
-## Pytanie badawcze
+## Badanie
 
-Czy na rynku kryptowalut występują bańki spekulacyjne, gdy rozkład zerowy testu uwzględnia niestacjonarną zmienność tego rynku? Badanie replikuje i rozszerza Hafnera (2020) na trzy sposoby: stosuje test PSY (Phillips, Shi i Yu, 2015) zamiast PWY (Phillips, Wu i Yu, 2011), bo ten drugi traci moc przy wielu następujących po sobie epizodach. Dokłada Binance Coin i Dogecoin do 10 szeregów obecnych u Hafnera, przedłuża próbę do końca 2025 roku.
+Badanie replikuje i rozszerza Hafnera (2020) na trzy sposoby: stosuje test PSY (Phillips, Shi i Yu, 2015) zamiast PWY (Phillips, Wu i Yu, 2011), bo ten drugi traci moc przy wielu następujących po sobie epizodach. Dokłada Binance Coin i Dogecoin do 10 szeregów obecnych u Hafnera, przedłuża próbę do końca 2025 roku.
 
 ## Dane
 
@@ -30,7 +29,7 @@ Zmienność całkowita to iloczyn trendu i odchylenia standardowego ze składnik
 
 **Test PSY.** Statystyka GSADF (Generalized Sup ADF) to supremum statystyk ADF po wszystkich oknach o zmiennym początku i końcu. Sekwencja BSADF (Backward Sup ADF) podaje to supremum dla każdego punktu końcowego i służy do datowania. Rozkład zerowy generuje wild bootstrap na 10 000 ścieżek z dwupunktowym rozkładem Mammena, odtwarzających strukturę zmienności szeregu. Ścieżki zawierają dryf równy medianie historycznych przyrostów logarytmicznych cen, co oddziela trend wzrostowy od eksplozji cenowej. Minimalne okno regresji to 200 obserwacji, krzywa wartości krytycznych ma postać `CV(t) = log(log(t)) / c`, a parametr `c` kalibrowany jest tak, aby na końcu próby odpowiadał górnemu kwantylowi 1%.
 
-Regresje ADF dla wszystkich okien liczone są na GPU. Sumy iloczynów krzyżowych akumulowane są raz jako sumy prefiksowe, więc suma dla dowolnego okna to różnica dwóch wpisów. Układ równań normalnych rozwiązywany jest wzorami Cramera, co utrzymuje całą regresję w rejestrach. Uzasadnienie metodologiczne w pracy zaliczeniowej, rozdz. 3.
+Regresje ADF dla wszystkich okien liczone są na GPU. Sumy iloczynów krzyżowych akumulowane są raz jako sumy prefiksowe, więc suma dla dowolnego okna to różnica dwóch wpisów. Układ równań normalnych rozwiązywany jest wzorami Cramera, co utrzymuje całą regresję w rejestrach.
 
 ### Dlaczego test napisano od zera
 
@@ -42,22 +41,22 @@ Sama statystyka jest natomiast zweryfikowana niezależnie. Wywołanie `exuber.ra
 
 ## Wyniki
 
-Bańki stwierdzono dla 3 z 12 kryptowalut na poziomie 1%. Wszystkie liczby poniżej przeliczono w tym repozytorium. Kolumna z pracy podana jest do porównania.
+Bańki stwierdzono dla 3 z 12 kryptowalut na poziomie 1%.
 
-| Kryptowaluta | GSADF  | p-wartość | p-wartość w pracy | Bańka na 1% |
-| ------------ | ------ | --------- | ----------------- | ----------- |
-| Stellar      | 7,3693 | 0,0021    | 0,0014            | tak         |
-| Bitcoin      | 4,0317 | 0,0072    | 0,0095            | tak         |
-| Binance Coin | 5,1305 | 0,0097    | 0,0086            | tak         |
-| XRP          | 4,6901 | 0,0198    | 0,0244            | nie         |
-| Cardano      | 2,9617 | 0,0870    | 0,0840            | nie         |
-| Ethereum     | 2,4822 | 0,1687    | 0,1683            | nie         |
-| Dash         | 3,0216 | 0,2096    | 0,2114            | nie         |
-| NEM          | 2,9224 | 0,2122    | 0,2162            | nie         |
-| Dogecoin     | 3,3268 | 0,2164    | 0,2107            | nie         |
-| Bitcoin Cash | 2,5449 | 0,2493    | 0,2562            | nie         |
-| Litecoin     | 1,5914 | 0,6271    | 0,6262            | nie         |
-| Monero       | 1,3854 | 0,9306    | 0,9361            | nie         |
+| Kryptowaluta | GSADF  | p-wartość | Bańka na 1% |
+| ------------ | ------ | --------- | ----------- |
+| Stellar      | 7,3693 | 0,0021    | tak         |
+| Bitcoin      | 4,0317 | 0,0072    | tak         |
+| Binance Coin | 5,1305 | 0,0097    | tak         |
+| XRP          | 4,6901 | 0,0198    | nie         |
+| Cardano      | 2,9617 | 0,0870    | nie         |
+| Ethereum     | 2,4822 | 0,1687    | nie         |
+| Dash         | 3,0216 | 0,2096    | nie         |
+| NEM          | 2,9224 | 0,2122    | nie         |
+| Dogecoin     | 3,3268 | 0,2164    | nie         |
+| Bitcoin Cash | 2,5449 | 0,2493    | nie         |
+| Litecoin     | 1,5914 | 0,6271    | nie         |
+| Monero       | 1,3854 | 0,9306    | nie         |
 
 XRP nie przekracza progu 1%, ale pozostaje poniżej 5%. Wynik ten jest słabszy statystycznie i nie rozstrzyga, czy zachowanie cen na przełomie 2024 i 2025 roku było epizodem wybuchowym.
 
@@ -75,22 +74,20 @@ Wyniki wskazują, że bańki na rynku kryptowalut nie są zjawiskiem powszechnym
 
 ## Ograniczenia
 
-- Etap PSY wymaga karty NVIDIA. Bez niej trzy pierwsze etapy działają, czwarty przerywa się komunikatem.
 - Szerokość pasma dobrana walidacją krzyżową wyszła ujemna dla Bitcoina, Bitcoin Cash i Stellara. Jądro gaussowskie zależy od kwadratu szerokości, więc oszacowanie pozostaje poprawne liczbowo, ale wartości tych nie należy czytać jako dobranej gładkości.
-- Tabela epizodów zawiera wszystkie przekroczenia krzywej, także jednodniowe. Kolumna `meets_min_duration` wskazuje te, które osiągają `ln(T)`. filtrowanie zostawiono czytelnikowi, bo praca stosuje w tabeli 3 łagodniejszy próg niż deklaruje w opisie metody.
-- Datowanie epizodów zgadza się z pracą częściowo. Spośród 29 przeliczonych epizodów dłuższych niż 7 dni 18 pokrywa się z tabelą 3 pracy co do obu dat, a 28 nachodzi na epizod z pracy. Praca wymienia w tym przedziale 27 epizodów. Różnice to przesunięcia granicy o 1-8 dni oraz inny podział długiego epizodu Bitcoina z wiosny 2021 roku. Część przesunięć jednodniowych tłumaczy konwencja liczenia okna, opisana dwa punkty niżej.
+- Tabela epizodów zawiera wszystkie przekroczenia krzywej, także jednodniowe. Kolumna `meets_min_duration` wskazuje te, które osiągają `ln(T)`; filtrowanie zostawiono czytelnikowi, żeby próg dało się zmienić bez przeliczania testu.
 - Rozkład zerowy zakłada błądzenie losowe z dryfem. Odrzucenie hipotezy wskazuje na zachowanie wybuchowe, nie rozstrzyga natomiast o jego przyczynie.
-- Minimalny czas trwania epizodu liczy `int(np.log(T))`, co dla tej próby ucina 7,98 do 7 dni. Praca podaje 8 dni. Trzy epizody o długości dokładnie 7 dni są przez to oznaczone kolumną `meets_min_duration` jako spełniające próg.
+- Minimalny czas trwania epizodu liczy `int(np.log(T))`, co dla tej próby ucina 7,98 do 7 dni zamiast zaokrąglić do 8. Trzy epizody o długości dokładnie 7 dni są przez to oznaczone kolumną `meets_min_duration` jako spełniające próg.
 
 ### Odstępstwo od procedury Hafnera w budowie ścieżek zerowych
 
 Krok 3 algorytmu Hafnera generuje ścieżkę zerową jako `y*_t = â + y*_{t-1} + Σ α̂_j Δy*_{t-j} + ε*_t`, gdzie `â` i `α̂` pochodzą z modelu AR dopasowanego do stóp zwrotu. Człon z sumą odtwarza w próbach bootstrapowych autokorelację stóp zwrotu, co Hafner podaje jako jawny cel tej modyfikacji.
 
-Badanie zastępuje `â` medianą przyrostów logarytmicznych cen i pomija człon autoregresyjny. Obie wielkości potrafią różnić się znakiem: dla Litecoina mediana wynosi 0,0004 przy stałej AR równej -0,0004, dla Dash 0,0003 wobec -0,0011. Dla Monero mediana jest 72 razy większa od stałej.
+Ten kod zastępuje `â` medianą przyrostów logarytmicznych cen i pomija człon autoregresyjny. Obie wielkości potrafią różnić się znakiem: dla Litecoina mediana wynosi 0,0004 przy stałej AR równej -0,0004, dla Dash 0,0003 wobec -0,0011. Dla Monero mediana jest 72 razy większa od stałej.
 
-Koszt tego odstępstwa zmierzono, przeliczając cały test z krokiem 3 Hafnera na 10 000 ścieżek. P-wartości przesuwają się o nie więcej niż 0,20, mediana różnicy wynosi 0,0041, a jedna konkluzja się zmienia: Binance Coin przechodzi z 0,0097 na 0,0135, czyli powyżej progu 1%, i bańki byłyby dwie zamiast trzech. Przyjęta specyfikacja jest przy tym bliższa pracy niż specyfikacja Hafnera - mediana odchylenia od tabeli 2 wynosi 0,0026 wobec 0,0081.
+Koszt tego odstępstwa zmierzono, przeliczając cały test z krokiem 3 Hafnera na 10 000 ścieżek. P-wartości przesuwają się o nie więcej niż 0,20, mediana różnicy wynosi 0,0041, a jedna konkluzja się zmienia: Binance Coin przechodzi z 0,0097 na 0,0135, czyli powyżej progu 1%, i bańki byłyby dwie zamiast trzech.
 
-Liczby z tego akapitu pochodzą z jednorazowego porównania wykonanego poza potokiem, kod repozytorium realizuje specyfikację opisaną w pracy, nie tę u Hafnera.
+Liczby z tego akapitu pochodzą z jednorazowego porównania wykonanego poza potokiem. Potok w tym repozytorium liczy wariant opisany w sekcji Metoda, nie wariant Hafnera.
 
 ## Struktura projektu
 
@@ -117,8 +114,6 @@ Liczby z tego akapitu pochodzą z jednorazowego porównania wykonanego poza poto
 │   ├── garch_parameters.csv  parametry modeli zmienności
 │   └── figures/              12 przebiegów BSADF i 12 dekompozycji zmienności
 ├── tests/                    gwarancje metodologiczne i spójność warstw danych
-├── docs/
-│   └── prezentacja.pdf       prezentacja projektu
 ├── requirements.txt
 └── requirements-dev.txt
 ```

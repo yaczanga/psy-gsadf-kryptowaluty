@@ -36,7 +36,7 @@ END_DATE = '2025-12-31'
 def display_name(name):
     """Rozdziela klucz CamelCase na potrzeby napisu na rysunku.
 
-    BinanceCoin -> Binance Coin, zgodnie z zapisem w pracy i w README.
+    BinanceCoin -> Binance Coin, zgodnie z zapisem w README.
     """
     return re.sub(r'(?<=[a-z])(?=[A-Z])', ' ', name)
 
