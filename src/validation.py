@@ -75,8 +75,8 @@ def mammen_weights(shape, rng):
 def wild_bootstrap_paths(std_residuals, g_t, log_price, n_paths, rng):
     """Buduje sciezki zerowe o dlugosci rownej dlugosci danych.
 
-    Przy hipotezie zerowej logarytm ceny jest bladzeniem losowym z dryfem.
-    Dryf to mediana historycznych przyrostow logarytmicznych cen, co oddziela
+    Przy hipotezie zerowej logarytm ceny jest bladzeniem losowym z dryfem
+    rownym medianie historycznych przyrostow logarytmicznych, co oddziela
     trend wzrostowy od eksplozji. Reszty standaryzowane zaburzamy wagami
     Mammena i mnozymy z powrotem przez g_t - jest to odchylenie standardowe,
     wiec czynnikiem jest samo g_t, nie jego pierwiastek.

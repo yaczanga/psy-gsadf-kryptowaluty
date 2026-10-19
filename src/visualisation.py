@@ -1,29 +1,14 @@
-"""
-Funkcje rysujace wykresy projektu (sekwencja BSADF, dekompozycja zmiennosci).
+"""Rysunki projektu: sekwencja BSADF i dekompozycja zmiennosci.
 
-Barwy. Zaden wykres nie dobiera koloru samodzielnie - wszystkie siegaja po
-tokeny z modulu plot_style, opisujace ROLE koloru w danych. Zasada generujaca
-systemu brzmi: cynober to przedmiot uwagi, blekit to odniesienie. Wywolanie
-style.apply_style() przy imporcie ustawia typografie, siatke i ramki.
+Barwy pochodza wylacznie z tokenow modulu plot_style i sa wybierane przez
+role, jaka seria pelni w danych: cynober to przedmiot uwagi, blekit to
+odniesienie. Sekwencja BSADF i obszar przekroczenia nosza RISK, krzywa
+wartosci krytycznych jako norma nosi REFERENCE, a modul reszt AR i zmiennosc
+calkowita biora pare tozsamosci SERIES_1 i SERIES_2.
 
-Przydzial rol w tym projekcie:
-
-- sekwencja BSADF jest wielkoscia badana, wiec nosi RISK; obszar przekroczenia
-  nosi ten sam token przy nizszym kryciu, bo jest fragmentem tej samej serii
-  nad norma, a nie trzecia kategoria;
-- krzywa wartosci krytycznych jest norma, wiec nosi REFERENCE;
-- w dekompozycji zmiennosci modul reszt AR i dopasowana zmiennosc calkowita sa
-  dwiema nazwanymi seriami bez wartosciowania, wiec biora pare tozsamosci
-  SERIES_1 i SERIES_2.
-
-Jezyk. Tekst widoczny na rysunku jest po polsku, z diakrytykami i przecinkiem
-dziesietnym. Komentarze i docstringi sa po polsku bez ogonkow, a nazwy w kodzie
-po angielsku - zgodnie z reszta projektu.
-
-Zapis do plikow. Domyslnie wykresy nie sa zapisywane. Po wywolaniu
-set_figures_dir(sciezka) kazdy wykres trafia do pliku PNG pod nazwa podana
-w argumencie 'name'. Sluzy to do odtworzenia zawartosci reports/figures/,
-ktora trafia do repozytorium i do README.
+Napisy na rysunku maja diakrytyki i przecinek dziesietny, kod i komentarze
+nie. Zapis do plikow jest wylaczony, dopoki set_figures_dir nie wskaze
+katalogu.
 """
 from __future__ import annotations
 
