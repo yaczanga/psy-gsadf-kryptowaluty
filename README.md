@@ -1,5 +1,7 @@
 # Identyfikacja baniek spekulacyjnych na rynku kryptowalut
 
+![testy](https://github.com/yaczanga/psy-gsadf-kryptowaluty/actions/workflows/testy.yml/badge.svg)
+
 Test PSY (GSADF/BSADF) z korektą wild bootstrap na dziennych cenach 12 kryptowalut z lat 2018-2025. Istotne epizody wybuchowego zachowania cen stwierdzono dla 3 z 12 aktywów na poziomie istotności 1%: Binance Coin, Bitcoina i Stellara. Główne ograniczenie: etap testu wymaga karty NVIDIA, bo sekwencja BSADF liczona jest w jądrach CUDA.
 
 
